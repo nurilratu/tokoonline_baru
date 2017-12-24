@@ -9,17 +9,17 @@
                 $password = $_POST['password'];
                 
                 $this->db->select('*');
-                $this->db->from('user');
+                $this->db->from('customer');
                 /* @var $username type */
                 $this->db->where(array('username' => $username, 'password' => $password));
                 $query = $this->db->get();
                 
-                $user = $query->row();
-                if($user->email){
+                $customer = $query->row();
+                if($customer->id_customer){
                     $this->session->set_flashdata("success", "You are Login");
                 
-                    $_SESSION['user_logged'] = TRUE;
-                    $_SESSION['username'] = $user->username;
+                    $_SESSION['customer_logged'] = TRUE;
+                    $_SESSION['customer_id'] = $customer->id_customer;
                     
                     redirect("user/dashboard", "refresh");
                 }else{
@@ -33,7 +33,7 @@
         }
         // Dashboard
         public function dashboard() {
-            if(!$_SESSION['user_logged']){
+            if(!$_SESSION['customer_logged']){
                 $this->session->set_flashdata("error", "Harus login terlebih dahulu");                
             }
 
@@ -41,12 +41,11 @@
         }
         // Logout
         public function logout() {
-            $_SESSION['user_logged'] = FALSE;
+            $_SESSION['customer_logged'] = FALSE;
 
             redirect('user/login');
         }
-    
-
+        //  Register
         public function register() {
             
             if (isset($_POST['register'])){
@@ -66,12 +65,48 @@
                         'alamat'=>$_POST['alamat'],
                         'no_telp'=>$_POST['no_telp']
                     );
-                    $this->db->insert('user', $data);
+                    $this->db->insert('customer', $data);
                     
                     $this->session->set_flashdata("success", "Your account has been registered. You can login now");
                     redirect("user/register", "refresh");
                 }
             }
             $this->load->view('user/register');
+        }
+        // Women
+        public function women() {
+            $this->load->view('user/women');
+        }
+        // Man
+        public function man() {
+            $this->load->view('user/man');
+        }
+        // Kids
+        public function kids() {
+            $this->load->view('user/kids');
+        }
+        // sports
+        public function sport() {
+            $this->load->view('user/sport');
+        }
+        // Detail
+        public function detail() {
+            $this->load->view('user/detail');
+        }
+        // Contact
+        public function contact() {
+            $this->load->view('user/contact');
+        }
+        // Checkout
+        public function checkout() {
+            $this->load->view('user/checkout');
+        }
+        // Konfirmasi
+        public function konfirmasi() {
+            $this->load->view('user/konfirmasi');
+        }
+        // Pesanan sukses
+        public function pesanansukses() {
+            $this->load->view('user/pesanansukses');
         }
     }

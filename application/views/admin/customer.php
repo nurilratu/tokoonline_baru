@@ -15,8 +15,8 @@
 
 </head>
 <body>
-        <div class="wrapper">
-        <div class="sidebar" data-color="purple" data-image="<?php echo base_url(); ?>assets/img/sidebar-1.jpg">
+<div class="wrapper">
+    <div class="sidebar" data-color="purple" data-image="<?php echo base_url(); ?>assets/img/sidebar-1.jpg">
         <div class="logo">
             <a href="<?php echo base_url(); ?>index.php/admin/dashboard" class="simple-text">
                 Admin Flad.eo
@@ -67,7 +67,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h2>Customer</h2>
+                    <h2>Customer</h2>
                     </div>
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
@@ -82,35 +82,45 @@
             <br>
             <br>
             <br>
-            <div class="row" style="margin-left: 7%;">
-            <div class="col-lg-11 col-md-11">
-                <div class="card card-nav-tabs">
-                    <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Customer Data</h4>
-                        <div class="nav-tabs-navigation">
-                            <div class="nav-tabs-wrapper">
-                            </div>
-                        </div>
-                    </div>
-                            <br><form class="tabel" method="GET">
+                    <div class="row" style="margin-left: 5%;">
+                        <div class="col col-lg-11 col-md-11">
+                            <div class="card card-nav-tabs">
+                                <div class="card-header" data-background-color="purple">
+                                    <h4 class="title">Data Customer</h4>
+                                    <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper">
+                                        </div>
+                                    </div>
+                                </div>
+                                           <br><form class="tabel" method="GET">
                                 <table width="94%" class="w3-table-all" id="tabel" name="tabel">
                                 <tr class="w3-blue">
                                     <th width="50px"><center>ID</center></th>
-                                    <th width="200px"><center>Nama</center></th>
-                                    <th width="200px"><center>Email</center></th>
-                                    <th width="200px"><center>Status</center></th>
-                                    <th width="50px" colspan=""><center>Opsi</center></th>
+                                    <th width="150px"><center>Username</center></th>
+                                    <th width="150px"><center>Email</center></th>                              
+                                    <th width="200px"><center>Alamat</center></th>
+                                    <th width="150px"><center>No Telpon</center></th>
+                                    <th width="80px"><center>Status</center></th>
+                                    <th width="50px" colspan="2"><center>Opsi</center></th>
                                 </tr>
-                                <tr class="delete_row">
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td scope="col"><div align="center"><a class="btn info">Activate</a></div></td>
-                                </tr> 
-                            </table>
-                        </form>
-                    </div>
+                                <?php
+                                    foreach ($customer as $c) {
+                                        echo '
+                                        <tr class="delete_row">
+                                            <td><center>'.$c->id_customer.'</center></td>
+                                            <td><center>'.$c->username.'</center></td>
+                                            <td><center>'.$c->email.'</center></td>
+                                            <td><center>'.$c->alamat.'</center></td>
+                                            <td><center>'.$c->no_telp.'</center></td>
+                                            <td><center>'.($c->status==1?'active':'banned').'</center></td>               <td scope="col"><div align="center"><a href="'.base_url().'index.php/admin/update_status_action/'.$c->id_customer.'/'.$c->status.'" name="update" class="btn success" id="update"><em><strong>'.($c->status == 1 ? 'Nonaktifkan':'aktifkan').'</strong></em></a></div></td>		
+                                       </tr>
+                                        ';
+                                    }
+                                ?>
+                                </table>
+                            </form>
+                        </div>
+                        
                         <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
                         <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js" type="text/javascript"></script>
                         <script src="<?php echo base_url(); ?>assets/js/material.min.js" type="text/javascript"></script>

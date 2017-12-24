@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Login Admin</title>
+  <title>Login User</title>
   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 
@@ -17,7 +17,7 @@
 <!-- Mixins-->
 <!-- Pen Title-->
 <div class="pen-title">
-  <h1>ADMIN FLAD.EO</h1>
+  <h1>FLAD.EO</h1>
 </div>
 <div class="container">
   <div class="card"></div>

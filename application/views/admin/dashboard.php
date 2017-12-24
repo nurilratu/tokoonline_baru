@@ -18,7 +18,7 @@
         <div class="wrapper">
         <div class="sidebar" data-color="purple" data-image="<?php echo base_url(); ?>assets/img/sidebar-1.jpg">
             <div class="logo">
-                <a href="<?php echo base_url(); ?>index.php/admin/dashboard" class="simple-text">
+                <a href="<?php echo base_url(); ?>index.php/admin/admin_toko" class="simple-text">
                     Admin Flad.eo
                 </a>
             </div>

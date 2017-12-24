@@ -18,7 +18,7 @@
         <div class="wrapper">
         <div class="sidebar" data-color="purple" data-image="<?php echo base_url(); ?>assets/img/sidebar-1.jpg">
         <div class="logo">
-            <a href="<?php echo base_url(); ?>index.php/admin/dashboard" class="simple-text">
+            <a href="<?php echo base_url(); ?>index.php/admin/admin_toko" class="simple-text">
                 Admin Flad.eo
             </a>
         </div>
@@ -92,21 +92,29 @@
                             </div>
                         </div>
                     </div>  
-                            <table width="94%" class="w3-table-all" id="tabel" name="tabel">
-                                <tr class="w3-blue">
-                                    <th width="50px"><center>ID</center></th>
-                                    <th width="200px"><center>Nama</center></th>
-                                    <th width="200px"><center>Email</center></th>  
-                                    <th width="50px" colspan=""><center>Opsi</center></th>
-                                </tr>  
-                                <tr class="delete_row">
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td scope="col"><div align="center"><a class="btn info">Detail</a></div></td> 
+                    <br><form class="tabel" method="GET">
+                    <table width="94%" class="w3-table-all" id="tabel" name="tabel">
+                    <tr class="w3-blue">
+                        <th width="50px"><center>ID</center></th>
+                        <th width="200px"><center>Tanggal Transaksi</center></th>
+                        <th width="200px"><center>Total Pembelian</center></th>                              
+                        <th width="200px"><center>Status Transaksi</center></th>
+                        <th width="50px" colspan="2"><center>Opsi</center></th>
+                    </tr>
+                    <?php
+                        foreach ($nota as $n) {
+                            echo '
+                            <tr class="delete_row">
+                                <td><center>'.$n->id_nota.'</center></td>
+                                <td><center>'.$n->tanggal_transaksi.'</center></td>
+                                <td><center>Rp. '.number_format($n->total_pembelian, 2).'</center></td>   
+                                <td><center>'.($n->status==1?'Sudah':'Belum').'</center></td>               <td scope="col"><div align="center"><a href="'.base_url().'index.php/admin/update_status_nota_action/'.$n->id_nota.'/'.$n->status.'" name="update" class="btn success" id="update"><em><strong>'.($n->status == 1 ? 'Belum':'Sudah').'</strong></em></a></div></td>
                                 </tr>
-                            </table>
-                        </form>
+                            ';
+                        }
+                    ?>
+                    </table>
+                    </form>
                     </div>
                         <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
                         <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js" type="text/javascript"></script>

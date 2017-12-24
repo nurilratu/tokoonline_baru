@@ -18,7 +18,7 @@
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="<?php echo base_url(); ?>assets/img/sidebar-1.jpg">
         <div class="logo">
-            <a href="<?php echo base_url(); ?>index.php/admin/dashboard" class="simple-text">
+            <a href="<?php echo base_url(); ?>index.php/admin/admin_toko" class="simple-text">
                 Admin Flad.eo
             </a>
         </div>
@@ -86,12 +86,12 @@
                                     <h4 class="title">Input Shoes</h4>
                                 </div>
                                 <div class="card-content">
-                                    <form>
+                                    <form action="<?php echo base_url(); ?>index.php/admin/tambah_barang" method="post">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Nama Sepatu</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="nama">
                                                 </div>
                                             </div>
                                         </div>
@@ -112,7 +112,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Kuantitas Barang</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="kuantitas">
                                                 </div>
                                             </div>
 											</div>
@@ -120,7 +120,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Harga Barang</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="harga">
                                                 </div>
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Keterangan</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="keterangan">
                                                 </div>
                                             </div>
 											</div>
@@ -164,15 +164,21 @@
                                     <th width="200px"><center>Harga Barang</center></th>
                                     <th width="50px" colspan="2"><center>Opsi</center></th>
                                 </tr>
-                                <tr class="delete_row">
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                    <td><center>adaw</center></td>
-                                <th scope="col"><div align="center"><a href="edit.html?id_barang=adaw" name="update" class="btn success" id="update"><em><strong> Edit</strong></em></a> </div></th>		
-                                <th scope="col"><div align="center"><a class="btn info" onClick="return confirm('Apakah anda ingin menghapus data ini?') ? hapus('adaw') : '';"><em><strong>Delete</strong></em></div></a></th>
-                                </tr>
+                                <?php
+                                    foreach ($barang as $b) {
+                                        echo '
+                                        <tr class="delete_row">
+                                            <td><center>'.$b->id_barang.'</center></td>
+                                            <td><center>'.$b->nama_barang.'</center></td>
+                                            <td><center>'.$b->kategori_barang.'</center></td>
+                                            <td><center>'.$b->kuantitas_barang.'</center></td>
+                                            <td><center>Rp. '.number_format($b->harga_barang, 2).'</center></td>                                            
+                                            <td scope="col"><div align="center"><a href="'.base_url().'index.php/admin/edit_shoes/'.$b->id_barang.'" name="update" class="btn success" id="update"><em><strong> Edit</strong></em></a></div></td>		
+                                            <td scope="col"><div align="center"><a href="'.base_url().'index.php/admin/delete_shoes/'.$b->id_barang.'" class="btn info"><em><strong>Delete</strong></em></div></a></td>
+                                        </tr>
+                                        ';
+                                    }
+                                ?>
                                 </table>
                                 </form>
                                 </div>
@@ -192,5 +198,10 @@
     <script src="<?php echo base_url(); ?>assets/js/material-dashboard.js?v=1.2.0"></script>
     <!-- Material Dashboard DEMO methods, don't include it in your project! -->
     <script src="<?php echo base_url(); ?>assets/js/demo.js"></script>
+    <!-- <script>
+        $.delete = function(id){
+            alert(id);
+        };
+    </script> -->
 </body>
 </html>
