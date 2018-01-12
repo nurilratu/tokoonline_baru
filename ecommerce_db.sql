@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2018 at 07:25 AM
+-- Generation Time: Jan 12, 2018 at 10:49 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -99,11 +99,19 @@ INSERT INTO `customer` (`id_customer`, `username`, `password`, `email`, `alamat`
 --
 
 CREATE TABLE `item_keranjang` (
+  `id` int(11) NOT NULL,
   `id_keranjang` int(5) NOT NULL,
   `id_barang` int(5) NOT NULL,
   `total_barang` int(20) NOT NULL,
   `sub_total` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_keranjang`
+--
+
+INSERT INTO `item_keranjang` (`id`, `id_keranjang`, `id_barang`, `total_barang`, `sub_total`) VALUES
+(3, 2, 2, 1, 21000);
 
 -- --------------------------------------------------------
 
@@ -112,11 +120,18 @@ CREATE TABLE `item_keranjang` (
 --
 
 CREATE TABLE `item_nota` (
-  `id_nota` int(5) NOT NULL,
+  `id_nota` bigint(32) NOT NULL,
   `id_barang` int(5) NOT NULL,
   `total_barang` int(50) NOT NULL,
   `total_harga` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_nota`
+--
+
+INSERT INTO `item_nota` (`id_nota`, `id_barang`, `total_barang`, `total_harga`) VALUES
+(2, 2, 1, 21000);
 
 -- --------------------------------------------------------
 
@@ -129,6 +144,13 @@ CREATE TABLE `keranjang_belanja` (
   `id_customer` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `keranjang_belanja`
+--
+
+INSERT INTO `keranjang_belanja` (`id_keranjang`, `id_customer`) VALUES
+(2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -136,7 +158,7 @@ CREATE TABLE `keranjang_belanja` (
 --
 
 CREATE TABLE `nota` (
-  `id_nota` int(5) NOT NULL,
+  `id_nota` bigint(32) NOT NULL,
   `tanggal_transaksi` date DEFAULT NULL,
   `total_pembelian` int(50) NOT NULL,
   `status` varchar(10) NOT NULL
@@ -147,8 +169,7 @@ CREATE TABLE `nota` (
 --
 
 INSERT INTO `nota` (`id_nota`, `tanggal_transaksi`, `total_pembelian`, `status`) VALUES
-(2, '2018-03-09', 900000, '1'),
-(3, '2008-11-26', 80500, '0');
+(20180112103339, '2018-01-12', 21000, '0');
 
 -- --------------------------------------------------------
 
@@ -187,6 +208,7 @@ ALTER TABLE `customer`
 -- Indexes for table `item_keranjang`
 --
 ALTER TABLE `item_keranjang`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_barang` (`id_barang`),
   ADD KEY `id_keranjang` (`id_keranjang`);
 
@@ -194,6 +216,7 @@ ALTER TABLE `item_keranjang`
 -- Indexes for table `item_nota`
 --
 ALTER TABLE `item_nota`
+  ADD UNIQUE KEY `id_nota_2` (`id_nota`),
   ADD KEY `id_nota` (`id_nota`),
   ADD KEY `id_barang` (`id_barang`);
 
@@ -239,40 +262,22 @@ ALTER TABLE `customer`
   MODIFY `id_customer` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `item_keranjang`
+--
+ALTER TABLE `item_keranjang`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `nota`
 --
 ALTER TABLE `nota`
-  MODIFY `id_nota` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_nota` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483647;
 
 --
 -- AUTO_INCREMENT for table `upload`
 --
 ALTER TABLE `upload`
   MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `item_keranjang`
---
-ALTER TABLE `item_keranjang`
-  ADD CONSTRAINT `item_keranjang_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `item_keranjang_ibfk_2` FOREIGN KEY (`id_keranjang`) REFERENCES `keranjang_belanja` (`id_keranjang`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `item_nota`
---
-ALTER TABLE `item_nota`
-  ADD CONSTRAINT `item_nota_ibfk_1` FOREIGN KEY (`id_nota`) REFERENCES `nota` (`id_nota`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `item_nota_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `keranjang_belanja`
---
-ALTER TABLE `keranjang_belanja`
-  ADD CONSTRAINT `keranjang_belanja_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`id_customer`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
