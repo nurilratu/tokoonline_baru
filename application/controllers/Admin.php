@@ -1,5 +1,11 @@
 <?php
     class Admin extends CI_Controller {
+        public function __construct() {
+            parent::__construct();
+            
+            $this->load->model('barang');
+        }
+
         // Login
         public function login() {
             $this->form_validation->set_rules('username', 'Username', 'required');
@@ -34,8 +40,8 @@
         // Dashboard
         public function dashboard() {
             if(!$_SESSION['admin_logged']){
-                $this->session->set_flashdata("error", "Harus login terlebih dahulu");        
-                redirect("admin/login", "refresh");                        
+                $this->session->set_flashdata("error", "Harus login terlebih dahulu");
+                redirect("admin/login", "refresh");
             }
             
             $this->load->view('admin/dashboard');            
@@ -76,7 +82,13 @@
         }
         // Tambah barang
         public function tambah_barang() {
-            $this->load->model('m_crud');            
+            $config['upload_path']          = './assets/img/';
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['encrypt_name']         = TRUE;
+        
+            $this->load->library('upload', $config);
+
+            $this->load->model('m_crud');
             
             $nama = $this->input->post('nama');
             $kategori = $this->input->post('kategori');
@@ -84,16 +96,21 @@
             $keterangan = $this->input->post('keterangan');
             $harga = $this->input->post('harga');
 
-            $data = array(
-                'kategori_barang' => $kategori,
-                'nama_barang' => $nama,
-                'kuantitas_barang' => $kuantitas,
-                'keterangan' => $keterangan,
-                'harga_barang' => $harga  
-            );
+            if($this->upload->do_upload('gambar')) {
+                $gambar = $this->upload->data('file_name');
+                
+                $data = array(
+                    'kategori_barang' => $kategori,
+                    'nama_barang' => $nama,
+                    'kuantitas_barang' => $kuantitas,
+                    'keterangan' => $keterangan,
+                    'harga_barang' => $harga,
+                    'gambar' => $gambar
+                );
 
-            $this->m_crud->input($data, 'barang');
-            redirect('admin/shoes');
+                $this->m_crud->input($data, 'barang');
+                redirect('admin/shoes');
+            }
         }
         // Edit Shoes
         public function edit_shoes($id) {
@@ -105,8 +122,14 @@
         }
         // Edit Shoes Action
         public function edit_shoes_action() {
-            $this->load->model('m_crud');
+            $config['upload_path']          = './assets/img/';
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['encrypt_name']         = TRUE;
+        
+            $this->load->library('upload', $config);
 
+            $this->load->model('m_crud');
+            
             $id = $this->input->post('id_barang');
             $nama = $this->input->post('nama');
             $kategori = $this->input->post('kategori');
@@ -114,18 +137,37 @@
             $keterangan = $this->input->post('keterangan');
             $harga = $this->input->post('harga');
 
-            $data = array(
-                'kategori_barang' => $kategori,
-                'nama_barang' => $nama,
-                'kuantitas_barang' => $kuantitas,
-                'keterangan' => $keterangan,
-                'harga_barang' => $harga  
-            );
+            if($this->upload->do_upload('gambar')) {
+                $gambar = $this->upload->data('file_name');
+                
+                $data = array(
+                    'kategori_barang' => $kategori,
+                    'nama_barang' => $nama,
+                    'kuantitas_barang' => $kuantitas,
+                    'keterangan' => $keterangan,
+                    'harga_barang' => $harga,
+                    'gambar' => $gambar
+                );
 
-            $where = array('id_barang' => $id);
+                $where = array(
+                    'id_barang' => $id
+                );
+            } else {
+                $data = array(
+                    'kategori_barang' => $kategori,
+                    'nama_barang' => $nama,
+                    'kuantitas_barang' => $kuantitas,
+                    'keterangan' => $keterangan,
+                    'harga_barang' => $harga
+                );
+
+                $where = array(
+                    'id_barang' => $id
+                );
+            }
 
             $this->m_crud->update($where, $data, 'barang');
-			redirect('admin/shoes');
+            redirect('admin/shoes');
         }
         // Delete Shoes
         public function delete_shoes($id) {

@@ -137,75 +137,33 @@
 <div class="head-bread">
             <div class="container">
                 <ol class="breadcrumb">
-                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="<?php echo base_url(); ?>index.php/user/dashboard">Home</a></li>
                     <li class="active">Sport</li>
                 </ol>
             </div>
         </div>
 <br>
 <h1>&nbsp;&nbsp;&nbsp;Sport</h1>
-			  <ul class="thumbnails">
-				<li class="span3 detail-box">
-				  <div class="thumbnail">
-					<a  href="detailsport.html"><img src="themes/images/products/7.jpg" alt=""/></a>
-					<div class="caption">
-					  <h5>Product name</h5>
-                      <p> 
-                        Lorem Ipsum is simply dummy text. 
-                      </p>
-                      <center><a class="btn buy buy-hover" href="#">BUY</a></center>
-					</div>
-				  </div>
-				</li>
-				<li class="span3 detail-box">
-				  <div class="thumbnail">
-					<a  href="detailsport.html"><img src="themes/images/products/8.jpg" alt=""/></a>
-					<div class="caption">
-					  <h5>Product name</h5>
-					  <p> 
-						Lorem Ipsum is simply dummy text. 
-					  </p>
-                      <center><a class="btn buy buy-hover" href="#">BUY</a></center>
-					</div>
-				  </div>
-				</li>
-               <li class="span3 detail-box">
-				  <div class="thumbnail">
-					<a  href="detailsport.html"><img src="themes/images/products/9.jpg" alt=""/></a>
-					<div class="caption">
-					  <h5>Product name</h5>
-					  <p> 
-						Lorem Ipsum is simply dummy text. 
-					  </p>
-					  <center><a class="btn buy buy-hover" href="#">BUY</a></center>
-					</div>
-				  </div>
-				</li>
-				<li class="span3 detail-box">
-				  <div class="thumbnail">
-					<a  href="detailsport.html"><img src="themes/images/products/10.jpg" alt=""/></a>
-					<div class="caption">
-					  <h5>Product name</h5>
-					  <p> 
-						Lorem Ipsum is simply dummy text. 
-					  </p>
-					  <center><a class="btn buy buy-hover" href="#">BUY</a></center>
-					</div>
-				  </div>
-				</li>
-				<li class="span3 detail-box">
-				  <div class="thumbnail">
-					<a  href="detailsport.html"><img src="themes/images/products/11.jpg" alt=""/></a>
-					<div class="caption">
-					  <h5>Product name</h5>
-					  <p> 
-						Lorem Ipsum is simply dummy text. 
-					  </p>
-					   <center><a class="btn buy buy-hover" href="#">BUY</a></center>
-					</div>
-				  </div>
-				</li>
-			  </ul>	
+<ul class="thumbnails">
+<?php 
+    foreach($barang as $b) {
+        echo '
+        <li class="span3 detail-box">
+            <div class="thumbnail">
+            <a  href="'.base_url('index.php/user/detail/').$b->id_barang.'"><img src="'.base_url('assets/img/').$b->gambar.'" alt=""/></a>
+            <div class="caption">
+                <h5>'.$b->nama_barang.'</h5>
+                <p> 
+                '.$b->keterangan.' 
+                </p>
+                <center><a class="btn buy buy-hover" href="'.base_url('index.php/user/detail/').$b->id_barang.'">BUY</a></center>
+            </div>
+            </div>
+        </li>
+        ';
+    }
+?>
+</ul>	
 
 		</div>
 		</div>

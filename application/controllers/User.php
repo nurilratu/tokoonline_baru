@@ -1,5 +1,11 @@
 <?php
     class User extends CI_Controller {
+        public function __construct() {
+            parent::__construct();
+
+            $this->load->model('barang');
+        }
+        
         // Login
         public function login() {
             $this->form_validation->set_rules('username', 'Username', 'required');
@@ -75,23 +81,52 @@
         }
         // Women
         public function women() {
-            $this->load->view('user/women');
+            $where = array(
+                'kategori_barang' => 'women'
+            );
+
+            $data['barang'] = $this->barang->get_per_kategori($where);
+
+            $this->load->view('user/women', $data);
         }
         // Man
         public function man() {
-            $this->load->view('user/man');
+            $where = array(
+                'kategori_barang' => 'man'
+            );
+
+            $data['barang'] = $this->barang->get_per_kategori($where);
+
+            $this->load->view('user/man', $data);
         }
         // Kids
         public function kids() {
-            $this->load->view('user/kids');
+            $where = array(
+                'kategori_barang' => 'kids'
+            );
+
+            $data['barang'] = $this->barang->get_per_kategori($where);
+    
+            $this->load->view('user/kids', $data);
         }
         // sports
         public function sport() {
-            $this->load->view('user/sport');
+            $where = array(
+                'kategori_barang' => 'sport'
+            );
+
+            $data['barang'] = $this->barang->get_per_kategori($where);
+
+            $this->load->view('user/sport', $data);
         }
         // Detail
-        public function detail() {
-            $this->load->view('user/detail');
+        public function detail($id) {
+            $where = array(
+                'id_barang' => $id
+            );
+            $data['barang'] = $this->barang->get_one('barang', $where)->row();
+
+            $this->load->view('user/detail', $data);
         }
         // Contact
         public function contact() {

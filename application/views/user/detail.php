@@ -136,12 +136,12 @@
 <div class="container">
     <h1>&nbsp;&nbsp;&nbsp;Detail</h1><br><br>
         
-        <div class="col-md-4"><img src="<?php echo base_url(); ?>assets/themes/images/products/7.jpg" alt=""/></div>
+        <div class="col-md-4"><img src="<?php echo base_url('assets/img/').$barang->gambar; ?>" alt=""/></div>
         <div class="col-md-5">
-        <h3>JUDUL</h3><br>
-            <p>bla bla bla bla bla bla bla</p><br><br><br>
+        <h3><?php echo $barang->nama_barang;?></h3><br>
+            <p><?php echo $barang->keterangan;?></p><br><br><br>
             <div class="controls">
-            <h4>RP. 0000</h4>
+            <h4>RP. <?php echo $barang->harga_barang;?></h4>
                 <button class="btn buymen buymen-hover pull-right" type="submit"> Add to cart <i class="icon-shopping-cart"></i></button>
             </div>
             </div>

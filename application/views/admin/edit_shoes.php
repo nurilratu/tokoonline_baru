@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="card-content">
                                     <?php foreach($barang as $b) { ?>
-                                    <form action="<?php echo base_url(); ?>index.php/admin/edit_shoes_action" method="post">
+                                    <form action="<?php echo base_url('index.php/admin/edit_shoes_action'); ?>" method="post" enctype="multipart/form-data">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating">
@@ -135,8 +135,14 @@
                                             </div>
 											</div>
 											<div class="row">
-											<div class="col-md-6">
-											<input type="file" accept="image/jpeg" class="">
+											<div class="col-md-12">
+                                                <div class="col col-md-12">
+                                                    <center><img src="<?php echo base_url('assets/img/').$b->gambar; ?>" alt="Belum Ada Gambar" id="preview_upload_gambar" class="img-responsive pad"></center>
+                                                </div>
+                                                <div class="col col-md-12">
+                                                    <input type="file" name="gambar" id="input_gambar" accept=".jpg,.png,.gif" style="display: none;">
+                                                    <center><span id="upload_gambar" class="btn btn-default btn-flat"><i class="fa fa-image"></i> Upload</span></center>
+                                                </div>
                                             </div>
 											</div>
                                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
@@ -162,5 +168,29 @@
     <script src="<?php echo base_url(); ?>assets/js/material-dashboard.js?v=1.2.0"></script>
     <!-- Material Dashboard DEMO methods, don't include it in your project! -->
     <script src="<?php echo base_url(); ?>assets/js/demo.js"></script>
+    <script>
+        $(function() {
+            $.readURL = function(input, preview) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                    $('#' + preview).attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $(function() {
+                // Unggah Gambar Promo
+                $('#upload_gambar').on('click', function() {
+                    $('#input_gambar').click();
+                });
+                // Preview Logo
+                $('#input_gambar').on('change', function() {
+                    $.readURL(this, 'preview_upload_gambar');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -86,7 +86,7 @@
                                     <h4 class="title">Input Shoes</h4>
                                 </div>
                                 <div class="card-content">
-                                    <form action="<?php echo base_url(); ?>index.php/admin/tambah_barang" method="post">
+                                    <form action="<?php echo base_url(); ?>index.php/admin/tambah_barang" method="post" enctype="multipart/form-data">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating">
@@ -132,11 +132,15 @@
                                                 </div>
                                             </div>
 											</div>
-											<div class="row">
-											<div class="col-md-6">
-											<input type="file" accept="image/jpeg" class="">
-                                            </div>
-											</div>
+                                            <div class="box-body">
+                                                <div class="col col-md-12">
+                                                    <center><img src="" alt="Belum Ada Gambar" id="preview_upload_gambar" class="img-responsive pad"></center>
+                                                </div>
+                                                <div class="col col-md-12">
+                                                    <input type="file" name="gambar" id="input_gambar" style="display: none;">
+                                                    <center><a href="#" id="upload_gambar" class="btn btn-default btn-flat"><i class="fa fa-image"></i> Upload</a></center>
+                                                </div>
+                                                </div>
                                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
                                         <div class="clearfix"></div>
                                     </form>
@@ -203,5 +207,27 @@
             alert(id);
         };
     </script> -->
+    <script>
+        $.readURL = function(input, preview) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                $('#' + preview).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(function() {
+            // Unggah Gambar Promo
+            $('#upload_gambar').on('click', function() {
+                $('#input_gambar').click();
+            });
+            // Preview Logo
+            $('#input_gambar').on('change', function() {
+                $.readURL(this, 'preview_upload_gambar');
+            });
+        });
+    </script>
 </body>
 </html>
