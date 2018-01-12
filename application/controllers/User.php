@@ -134,8 +134,33 @@
         }
         // Checkout
         public function checkout() {
-            $this->load->view('user/checkout');
+            $where = array(
+                'id_keranjang' => $_SESSION['customer_id']
+            );
+
+            $data['item'] = $this->db->get_where('item_keranjang', $where)->result();
+            $data['jumlah_item'] = $this->db->get_where('item_keranjang', $where)->num_rows();
+            $data['total_belanja'] = $this->db->select_sum('sub_total')->get_where('item_keranjang', $where)->row();
+
+            $this->load->view('user/checkout', $data);
         }
+
+        public function nota($id) {
+            $where = array(
+                'id_nota' => $id
+            );
+
+            $data['item'] = $this->db->get_where('item_nota', $where)->result();
+            // foreach ($item as $item_nota)
+            // echo $item_nota->nama;
+            $data['jumlah_item'] = $this->db->get_where('item_nota', $where)->num_rows();
+            // $jumlah_item;
+            $data['total_belanja'] = $this->db->get_where('nota', $where)->row();
+            // $total_belanja->total_pembelian;
+
+            $this->load->view('user/nota', $data);
+        }
+
         // Konfirmasi
         public function konfirmasi() {
             $this->load->view('user/konfirmasi');
@@ -143,5 +168,27 @@
         // Pesanan sukses
         public function pesanansukses() {
             $this->load->view('user/pesanansukses');
+        }
+
+        public function checkout_confirm($id) {
+            $id_nota = date("YmdHis");
+            $tanggal = date("Y-m-d");
+            $where = array(
+                'id_keranjang' => $id
+            );
+
+            $total_pembelian = $this->db->query("SELECT SUM(sub_total) as total FROM item_keranjang WHERE id_keranjang='$id'")->row();
+            $total_pembelian = $total_pembelian->total;
+
+            $create_nota = $this->db->query("INSERT INTO nota (id_nota, tanggal_transaksi, total_pembelian, status) VALUES ('$id_nota', '$tanggal', '$total_pembelian', 0)");
+            if ($create_nota) {
+                $insert_item_nota = $this->db->query("INSERT INTO item_nota (id_nota, id_barang, total_barang, total_harga) SELECT $id, id_barang, total_barang, sub_total FROM item_keranjang WHERE id_keranjang='$id'");
+                if ($insert_item_nota) {
+                    $delete_item_keranjang = $this->db->query("DELETE FROM item_keranjang WHERE id_keranjang='$id'");
+                    if ($delete_item_keranjang) {
+                        redirect("user/nota/".$id_nota, "refresh");
+                    }
+                }
+            }
         }
     }

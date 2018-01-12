@@ -135,6 +135,7 @@
                 <div class="container">	 
                     <div class="col-md-3 cart-total">
                         <a class="continue" href="<?php echo base_url();?>index.php/user/dashboard">Continue to Shop</a>
+                        
                         <div class="price-details">
                             <h3>Price Details</h3>
                             <span>Total</span>
@@ -148,14 +149,14 @@
                         <hr class="featurette-divider">
                         <ul class="total_price">
                            <li class="last_price"> <h4>TOTAL</h4></li>	
-                           <li class="last_price"><span>6150.00</span></li>
+                           <li class="last_price"><span><?php echo $total_belanja->sub_total; ?></span></li>
                            <div class="clearfix"> </div>
                         </ul> 
                         <div class="clearfix"></div>
-                        <a class="order" href="<?php echo base_url();?>index.php/user/konfirmasi">Confirm</a>
+                        <a href="<?php echo base_url('index.php/user/checkout_confirm/'.$_SESSION['customer_id']); ?>" class="order">Confirm</a>
                     </div>
                     <div class="col-md-9 cart-items">
-                        <h1>My Shopping Bag (2)</h1>
+                        <h1>My Shopping Bag (<?php echo $jumlah_item; ?>)</h1>
                             <script>$(document).ready(function(c) {
                                 $('.close1').on('click', function(c){
                                     $('.cart-header').fadeOut('slow', function(c){
@@ -164,59 +165,36 @@
                                     });	  
                                 });
                            </script>
-                        <div class="cart-header">
-                <div class="close1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                            <div class="cart-sec simpleCart_shelfItem">
-                                    <div class="cart-item cyc">
-                                        <img src="<?php echo base_url();?>assets/img/web/3.jpg" class="img-responsive" alt=""/>
+                           <div class="cart-header">
+                            <?php
+                                $i = 0;
+                                $barang = array();
+                                $where = array();
+                                foreach($item as $keranjang_item) {
+                                    $where[$i] = array(
+                                        'id_barang' => $keranjang_item->id_barang
+                                    );
+                                    $barang[$i] = $this->db->get_where('barang', $where[$i])->row();                                    
+                                    echo '<div class="close1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                                    <div class="cart-sec simpleCart_shelfItem">
+                                            <div class="cart-item cyc">
+                                            <img src="'.base_url().'assets/img/'.$barang[$i]->gambar.'" class="img-responsive" alt=""/>
+                                            </div>
+                                        <div class="cart-item-info">
+                                                <ul class="qty">
+                                                <div class="controls">
+                                                        <input type="number" class="span1" placeholder="Qty." name="total_barang_'.$i.'" min="1" value="'.$keranjang_item->total_barang.'"/>
+                                                    <li><p>Price each : Rp. '.$keranjang_item->sub_total.'</p></li>
+                                                </ul>
+                                                <div class="delivery">
+                                                    <div class="clearfix"></div>
+                                                </div>	
+                                        </div>
+                                        <div class="clearfix"></div>
                                     </div>
-                                   <div class="cart-item-info">
-                                        <ul class="qty">
-                                            <li><p>Size : 9 US</p></li>
-                                           <div class="controls">
-					<input type="number" class="span1" placeholder="Qty."/>
-                                            <li><p>Price each : $190</p></li>
-                                        </ul>
-                                        <div class="delivery">
-                                             <p>Service Charges : Rs.190.00</p>
-                                             <span>Delivered in 2-3 bussiness days</span>
-                                             <div class="clearfix"></div>
-                                        </div>	
-                                   </div>
-                                   <div class="clearfix"></div>
-
-                              </div>
-                         </div>
-                         <script>$(document).ready(function(c) {
-                                $('.close2').on('click', function(c){
-                                        $('.cart-header2').fadeOut('slow', function(c){
-                                    $('.cart-header2').remove();
-                                });
-                                });	  
-                                });
-                         </script>
-                        <div class="cart-header2">
-                <div class="close2"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                                <div class="cart-sec simpleCart_shelfItem">
-                                    <div class="cart-item cyc">
-                                         <img src="<?php echo base_url();?>assets/img/web/2.jpg" class="img-responsive" alt=""/>
-                                    </div>
-                                    <div class="cart-item-info">
-                                        <ul class="qty">
-                                            <li><p>Size : 8 US</p></li>
-                                            <div class="controls">
-					<input type="number" class="span1" placeholder="Qty."/>
-                                            <li><p>Price each : $190</p></li>
-                                        </ul>
-                                        <div class="delivery">
-                                            <p>Service Charges : Rs.360.00</p>
-                                            <span>Delivered in 2-3 bussiness days</span>
-                                            <div class="clearfix"></div>
-                                        </div>	
-                                   </div>
-                                   <div class="clearfix"></div>					
-                                </div>
-                        </div>			
+                                </div>';        
+                                }
+                            ?>			
                     </div>
                     <div class="clearfix"> </div>
                 </div>
